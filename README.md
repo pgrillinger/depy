@@ -1,8 +1,8 @@
-# depy
-Dependency management python framework
+# respin
+VHDL source code packaging and dependency framework
 
 ## Purpose
-This tool aims to provide a framework for dependency managemnt of mainy HDL code.
+This tool aims to provide a framework for dependency managemnt and package of of mainly VHDL code.
 The primary goals that should be achieved are:
 - Package is described by a configuration file (typicaly in root folder of the source package)
 - Information about available source packages tracked in a database (remote)
