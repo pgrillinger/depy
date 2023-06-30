@@ -35,3 +35,6 @@ intended for both simulation and synthesis.
 - Configuation format: yaml
 - Frontent/client: command-line only
 
+## Distribution
+- PyPy package / source code
+
