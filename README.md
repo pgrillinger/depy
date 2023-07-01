@@ -31,7 +31,7 @@ intended for both simulation and synthesis.
 
 ## Implementation
 - Language: Python 3.10+
-- Database: PostreSQL
+- Database: PostreSQL, but looking and neo4j as a promissing alternative as well
 - Configuation format: yaml
 - Frontent/client: command-line only
 
