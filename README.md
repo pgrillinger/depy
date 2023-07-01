@@ -38,3 +38,10 @@ intended for both simulation and synthesis.
 ## Distribution
 - PyPy package / source code
 
+## Plan & Status
+1. Concept phase: definition of use cases, data flows, main functions, data formats, database data model,
+2. (not started) data-flow prototype: upload/download with local database and file-based store, dependency resolution
+3. (not started) tool support: support for GHDL, evaluation with simple VHDL projects
+4. (not started) remote store support: package upload/download from GIT and/or generic URLs
+5. (not started) remote database, authenthication: support for remote database with authenthication
+
