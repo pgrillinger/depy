@@ -51,6 +51,9 @@ intended for both simulation and synthesis.
    * Name is a case-insensitive single string comprised of `[\._-a-zA-Z.0-9]`
    * Version schedme as defined in [semver.org](https://semver.org/)
    * Default format for packaging is zip, full name should be `<name>-version.zip`
+   * Steps:
+     * create respin.yaml with IP name, version (similar to pyproject.toml) in root folder of the design
+     * run `resping build`
 2. Upload IP package
    * Repository for upload should be defined in a configuration file with command-line override option
    * Overwriting existing packages in repository (same name/version) should not be possible
@@ -58,6 +61,8 @@ intended for both simulation and synthesis.
    * Meta-information for indexing is expected to be part of the package (see use case 3)
    * Package index will be managed in a database (location/name configurable)
    * Upload and indexing should be atomic if possible (rollback if neededed)
+   * Steps:
+     * run `respin push`
 3. Classify/index IP packages
    * Each package must be classified to allow indexing/lookup
    * A single configuration yaml file called `respin.yaml` will be used for each IP package
@@ -75,23 +80,31 @@ intended for both simulation and synthesis.
      * Documentation link
      * Issue tracker link
      * VCS link (GIT assumed for this version)
+   * Steps:
+     * Store relevant data in `respin.yaml`
+     * Build package via `respin build`
+     * Upload package via `respin push` -> this step updates the database and checks if the dependencies exists
 4. Download and extract IP package locally
    * Allow download of specified package / version via command line
    * First lookup is always into database, if found the package location (repository) will be obtained from there
        * Override via command line can be considered
    * Allow automated extraction of download packages into a local cache
    * Manage multiple versions of the same package inside the cache
+   * Steps:
+     * run `respin pull <package-specification>`
 5. Support project dependecies and compilation
-   * A project will specify all its dependencies via its `respin.yaml` file
-   * By running `resping update`, all dependencies will be resolved and loaded into local cache
-      * includes checking for new versions if available and prompting for update
-      * includes creation of compile scripts for each IP
-      * includes library-management to prevent name-space conflicts
+    * Steps:
+      * Store project dependencies in `respin.yaml`
+      * Run `respin update` to pull all specified dependencies locally and generate compile scripts
+        * includes library-management to prevent name-space conflicts
+      * Run `respin status` to check if local copy is consistent, prints versions / modification status
+      * Run `respin clean` to restore all dependencies to pristine status
 6. Support for upstreaming of changes
    * If an IP is modified, regardless of its location in project (part of project or dependency), change upstreaming should be possible
        * Assumes the IP package contains reference to the original VCS
        * Current version will be limited to GIT
-   * Option A: All IP packages are directly loaded from GIT if `respin update --devel` option is used
-   * Option B: Specific package is cloned via GIT by running `resping update <package> --devel` option is used
-   * Switching to the package location in cache is done by `respin cd <package>`
-   * Usual GIT commands can then be used to manipulate the cloned package
+   * Steps:
+     * Use `respin update --devel` to clone all dependencies from VCS (GIT)
+     * Use `resping pull <package-specification> --devel` tp clone a specific package from VCS (GIT)
+     * Use `respin path <package>` to determine the path where a package was stored locally
+     * Use GIT commands as usual to manipulate the cloned package, `respin build && respin push` to upload the new version
