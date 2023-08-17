@@ -108,3 +108,47 @@ intended for both simulation and synthesis.
      * Use `resping pull <package-specification> --devel` tp clone a specific package from VCS (GIT)
      * Use `respin path <package>` to determine the path where a package was stored locally
      * Use GIT commands as usual to manipulate the cloned package, `respin build && respin push` to upload the new version
+
+## Concept
+
+### Database Scheme
+
+* Table 'Packages'
+  * Purpose:
+    * Track all packages (one entry for each package/version combination)
+  * Fields:
+    * id, primary key
+    * name, required
+    * version, required
+    * author
+    * date
+    * source
+  * Properties
+    * unique (name, version)
+* Table 'Links'
+  * Purpose:
+    * Allow each package to have multiple associated links
+    * Expected kinds: tracker, wiki, source, archive, repository
+  * Fields:
+    * name, primary key
+    * url, required
+    * package, foreign key (Packages, id)
+    * kind
+* Table 'Dependencies'
+  * Purpose:
+    * Track depencendies between packages
+    * A package listed as dependency cannot be deleted
+  * Fields:
+    * id, primary key
+    * origin, foreign key (Packages, id)
+    * dependency, foreign key (Packages, id)
+* Table 'Repositories'
+  * Purpose:
+    * List of repositories that contain packages
+    * Unsure if needed: Could be better left to user-side configuration
+  * Fields:
+    * id, primary key
+    * name, required, unique
+    * url, required
+    * active, required
+    * priority, required
