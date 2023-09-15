@@ -13,7 +13,7 @@ The primary goals that should be achieved are:
   - redundant depencies get merged into one download
 - Package upload checks that all dependencies are available
 - Multiple options where packages are stored (GIT, Artifactory, etc)
-- Native support for VHDL
+- Native support for VHDL / SystemVerilog
   - ability to map dependencies into VHDL libraries (library names based on pacakge name and version)
   - abiltiy to create compilation scripts
 
@@ -69,15 +69,22 @@ intended for both simulation and synthesis.
    * Mandatory configuration items:
      * Package name
      * Package version
-     * Author(s) / Maintainer(s)
+        * <number> | <@git_tag> | <@file_ref> | <@env_variable> | <@git_hash>
+     * Author/Owner (email)
    * Optional configuration items (extensions allowed)
-     * Package status (development, released, obsolete, deprecated)
+     * Package status (development, released, obsolete, deprecated) -> can be changed later (new use case)
+     * Quality level
+     * Maintainers (email)
+     * Type of IP: (FPGA_project, ASIC_project, inetrnal IP, 3rd party IP, VIP)
+     * Labels
      * IP dependencies
-     * Tool dependencies
+     * Tool dependencies (Vivado=version, Python=version, GHDL=version, ...)
      * Compile script
      * Compile library
+     * Regression test script
      * License / copyright
      * Documentation link
+     * Jenkins link
      * Issue tracker link
      * VCS link (GIT assumed for this version)
    * Steps:
